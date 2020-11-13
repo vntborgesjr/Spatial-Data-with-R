@@ -20,4 +20,24 @@ corvallis_map <- get_map(corvallis, zoom = 13, scale = 1)
 # Plot map at zoom level 13
 ggmap(corvallis_map)
 
-?ggmap
+# Putting it all together
+sales <- readRDS('Datasets/01_corv_sales.rds')
+# Look at head() of sales
+head(sales)
+
+# Swap out call to ggplot() with call to ggmap()
+ggmap(corvallis_map) +
+  geom_point(aes(lon, lat), data = sales)
+
+# Insight through aesthetics
+# Map color to year_built
+ggmap(corvallis_map) +
+  geom_point(aes(lon, lat, color = year_built), data = sales)
+
+# Map size to bedrooms
+ggmap(corvallis_map) +
+  geom_point(aes(lon, lat, size = bedrooms), data = sales)
+
+# Map color to price / finished_squarefeet
+ggmap(corvallis_map) +
+  geom_point(aes(lon, lat, color = price / finished_squarefeet), data = sales)
