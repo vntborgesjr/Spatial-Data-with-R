@@ -53,7 +53,7 @@ tm_shape(shp = pop) +
 
 # Plot the under_1 layer in pop_by_age
 tm_shape(shp = pop_by_age) +
-  tm_raster(col = 'under_1')
+  tm_raster(by = 'under_1')
 
 library(rasterVis)
 # Call levelplot() on pop
