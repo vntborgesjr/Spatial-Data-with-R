@@ -82,6 +82,7 @@ qmplot(lon, lat, data = sales,
 # Common types of spatial data  -------------------------------------------
 # Drawing polygons
 ward_sales <- readRDS('Datasets/01_corv_wards.rds')
+head(ward_sales)
 
 # Add a point layer with color mapped to ward
 ggplot(ward_sales, aes(lon, lat)) +
