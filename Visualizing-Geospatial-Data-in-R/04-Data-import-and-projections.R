@@ -48,6 +48,7 @@ summary(income_grid)
 plot(income_grid)
 
 # Or using tmap
+library(tmap)
 tm_shape(income_grid) + 
   tm_raster(col = "m5602ahhi00.tif")
 
@@ -65,7 +66,7 @@ summary(nyc_tracts)
 plot(nyc_tracts)
 
 # Or using tmap
-tm_shape(nyc_tracts$geometry) +
+tm_shape(nyc_tracts) +
   tm_polygons()
 
 # Coordinate reference systems  -------------------------------------------
@@ -211,7 +212,7 @@ tm_shape(nyc_tracts_merge) +
 
 # Tidying up the legend and some final tweaks
 library(tmap)
-
+tmap_mode("plot")
 tm_shape(nyc_tracts_merge) +
   # Add title and change palette
   tm_fill(col = "estimate", 
