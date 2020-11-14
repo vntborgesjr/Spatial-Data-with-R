@@ -1,0 +1,2 @@
+/geotiff/m5602ahhi00.tif
+/geotiff/m5602area00.tif
