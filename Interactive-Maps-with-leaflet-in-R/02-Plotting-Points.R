@@ -62,7 +62,7 @@ ipeds  %>%
 # There is no data available to reproduce the examples
 # Create a dataframe called `ca` with data on only colleges in California
 ca <- ipeds %>%
-  filter(state == "CA")
+  filter(state == "California")
 
 # Use `addMarkers` to plot all of the colleges in `ca` on the `m` leaflet map
 map %>%
@@ -115,7 +115,8 @@ map_color
 # Clear the bounds and markers on the map object and store in map2
 map2 <- map %>% 
   clearBounds() %>% 
-  clearMarkers()
+  clearMarkers() %>% 
+  setView(lat = la_coords$lat, lng = la_coords$lon, zoom = 8)
 
 # Add circle markers with popups that display both the institution name and sector
 map2 %>% 
@@ -129,11 +130,41 @@ map2 %>%
 
 # Swapping Popups for Labels
 # Add circle markers with labels identifying the name of each college
-map %>% 
+map2 %>% 
   addCircleMarkers(data = ca, radius = 2, label = ~name)
 
 # Use paste0 to add sector information to the label inside parentheses 
-map %>% 
+map2 %>% 
   addCircleMarkers(data = ca, radius = 2, 
                    label = ~paste0(name, " (", sector_label, ")"))
 
+# Color Coding Colleges  -------------------------------------------
+# Creating a Color Palette using colorFactor
+# Make a color palette called pal for the values of `sector_label` using `colorFactor()`  
+# Colors should be: "red", "blue", and "#9b4a11" for "Public", "Private", and "For-Profit" colleges, respectively
+pal <- colorFactor(palette = c("red", "blue", "#9b4a11"), 
+           levels = c("Public", "Private", "For-Profit"))
+
+# Add circle markers that color colleges using pal() and the values of sector_label
+map2 <- 
+  map %>% 
+  addCircleMarkers(data = ca, radius = 2, 
+                   color = ~pal(sector_label), 
+                   label = ~paste0(name, " (", sector_label, ")")) %>% 
+  setView(lat = la_coords$lat, lng = la_coords$lon, zoom = 8)
+
+# Print map2
+map2
+
+# A Legendary Map
+# Add a legend that displays the colors used in pal
+map2 %>% 
+  addLegend(pal = pal, 
+      values = c("Public", "Private", "For-Profit"))
+
+# Customize the legend
+map2 %>% 
+  addLegend(pal = pal, 
+      values = c("Public", "Private", "For-Profit"),
+      # opacity of .5, title of Sector, and position of topright
+      opacity = 0.5, title = "Sector", position = "topright")
